@@ -23,7 +23,7 @@ public class Employee {
 	private String name; // varchar(255) in mysql
 	private String jobTitle;
 	private LocalDate createdAt;
-	
+	//findByJobTitleANdAccessType(jobTitle,accessType): Employee
 	@Enumerated(EnumType.STRING)
 	private EmployeeAccessStatusEnum accessType; //GRANTED, DENIED, PENDING
 	

@@ -66,6 +66,7 @@ public class EmployeeController {
 		user.setRole("EMPLOYEE");
 		
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		user.setUsername(user.getUsername().toLowerCase());
 		user  = userRepository.save(user); //id,username,password,role
 		
 		/* Attach User to Employee and Save Employee */

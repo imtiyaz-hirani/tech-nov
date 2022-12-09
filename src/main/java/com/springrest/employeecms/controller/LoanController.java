@@ -31,6 +31,9 @@ public class LoanController {
 	
 	@Autowired
 	private AccountHolderLoanRepository accountHolderLoanRepository;
+	
+	
+	
 	@PostMapping("/add")
 	public void postLoan(@RequestBody Loan loan) {
 		loanRepository.save(loan);
@@ -44,9 +47,7 @@ public class LoanController {
 		if(!optional.isPresent()) {
 			
 		}
-		
 		Loan loan = optional.get();
-		
 		AccountHolder ah =   accountHolderRepository.findById(ahid).get();
 		
 		AccountHolderLoan ahl = new AccountHolderLoan();

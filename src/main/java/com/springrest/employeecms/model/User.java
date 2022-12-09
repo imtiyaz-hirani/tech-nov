@@ -1,5 +1,6 @@
 package com.springrest.employeecms.model;
 
+ 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,15 +9,18 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "user_details")
-public class User {
+public class User{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private Long id;  //findById(id) : already present
 
-	private String username; // email
-	private String password;
-	private String role;
+	private String username; // findByUsername(username): User
+	private String password; // findByPassword(password): User
+	private String role; //findByRole(role): User
+	
+	//findByUsernameAndPassword(username,password) : User
+	//findByUsernameAndRole(username,role): User
 	//getters setters toString
 	public Long getId() {
 		return id;
@@ -54,5 +58,6 @@ public class User {
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", role=" + role + "]";
 	}
+
 
 }

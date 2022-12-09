@@ -14,7 +14,8 @@ public class AccountHolder {
 
 	private String name;
 	private String panNUmber;
-
+	private float creditScore; 
+	
 	public Long getId() {
 		return id;
 	}
@@ -39,4 +40,13 @@ public class AccountHolder {
 		this.panNUmber = panNUmber;
 	}
 
+	public float getCreditScore() {
+		return creditScore;
+	}
+
+	public void setCreditScore(float creditScore) {
+		this.creditScore = creditScore;
+	}
+
+	
 }
