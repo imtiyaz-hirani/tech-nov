@@ -27,8 +27,8 @@ public class LoanService {
 	private AccountRepository accountRepository; 
 	
 	public double computeSanctionLoanAmount(Long ahid, Long lid, Double amountNeeded) {
-		Loan loan = loanRepository.findById(lid).get();
-		AccountHolder accountHolder =   accountHolderRepository.findById(ahid).get();
+		Loan loan = loanRepository.getLoanById(lid);
+		AccountHolder accountHolder =   accountHolderRepository.getAHById(ahid);
 		
 		float creditScore = accountHolder.getCreditScore();
 		LoanTypeEnum loanType =  loan.getType();
