@@ -1,6 +1,5 @@
 package com.springrest.employeecms.controller;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springrest.employeecms.model.AccountHolder;
-import com.springrest.employeecms.model.AccountHolderLoan;
 import com.springrest.employeecms.model.Loan;
 import com.springrest.employeecms.repository.AccountHolderLoanRepository;
 import com.springrest.employeecms.repository.AccountHolderRepository;
 import com.springrest.employeecms.repository.LoanRepository;
+import com.springrest.employeecms.service.LoanService;
 
 @RestController
 @RequestMapping("/api/loan")
@@ -32,35 +31,22 @@ public class LoanController {
 	@Autowired
 	private AccountHolderLoanRepository accountHolderLoanRepository;
 	
-	
+	@Autowired
+	private LoanService loanService; 
 	
 	@PostMapping("/add")
 	public void postLoan(@RequestBody Loan loan) {
 		loanRepository.save(loan);
 	}
 	
-	@PostMapping("/apply/{ahid}/{lid}/{amount}")
-	public void applyLoan(@PathVariable("ahid") Long ahid, 
+	@GetMapping("/apply/{ahid}/{lid}/{amount}")
+	public Double applyLoan(@PathVariable("ahid") Long ahid, 
 						  @PathVariable("lid") Long lid,
-						  @PathVariable("amount") Double amount) {
-		Optional<Loan> optional = loanRepository.findById(lid);
-		if(!optional.isPresent()) {
-			
-		}
-		Loan loan = optional.get();
-		AccountHolder ah =   accountHolderRepository.findById(ahid).get();
+						  @PathVariable("amount") Double amountNeeded) {
 		
-		AccountHolderLoan ahl = new AccountHolderLoan();
-		ahl.setLoan(loan);
-		ahl.setAccountHolder(ah);
-		ahl.setSanctionDate(LocalDate.now());
-		long random_number = (long)Math.random()+1000000;
-		String loanNumber = "HDAX" + random_number;
-		ahl.setLoanNumber(loanNumber);
-		ahl.setAmount(amount);
-		
-		accountHolderLoanRepository.save(ahl);
-		
+		//Compute sanctionAmount
+		double sanctionAmount = loanService.computeSanctionLoanAmount(ahid,lid,amountNeeded);
+		return sanctionAmount;
 	}
 	
 	@GetMapping("/ah/loan/{lid}")
