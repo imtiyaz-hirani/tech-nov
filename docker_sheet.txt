@@ -1,0 +1,167 @@
+Aim: Setup Linux Environment in Windows 
+
+Docker Image(Docker-hub): YES
+Name of Docker Image: Alpine
+
+[Docker image runs in docker container]
+
+STEP 1: Create Docker Container 
+
+docker container create -i -t --name myaplinecontainer alpine
+
+Info: 
+myaplinecontainer: name of our container, could be anything
+
+alpine: name of docker image: cannot change
+
+Command: 
+C:\Users\Admin>docker container create -i -t --name myaplinecontainer alpine
+6cd787df9ad2d56ffa0384de0a3e1aab8bcad269cd1bffc8c395c1d6bf3fd03b
+
+INFO: 6cd787df9ad2d56ffa0384de0a3e1aab8bcad269cd1bffc8c395c1d6bf3fd03b: container ID
+
+Step 2: Start the Container
+
+C:\Users\Admin>docker start myaplinecontainer
+myaplinecontainer
+
+Confirmation:
+-------------
+C:\Users\Admin>docker ps
+CONTAINER ID   IMAGE     COMMAND     CREATED         STATUS          PORTS     NAMES
+6cd787df9ad2   alpine    "/bin/sh"   4 minutes ago   Up 45 seconds             myaplinecontainer
+
+
+Step 3: Run the Image(Alpine) on the Container
+
+C:\Users\Admin>docker images
+REPOSITORY                                   TAG       IMAGE ID       CREATED        SIZE
+alpine                                       latest    9c6f07244728   4 months ago   5.54MB
+
+C:\Users\Admin>docker run -it 9c6f07244728 /bin/sh
+/ # 
+
+INFO: 
+9c6f07244728 : Image ID
+/bin/sh : Container command
+
+/ # -  Linux OS Console
+
+COMMANDS FOR LINUS TESTING
+==========================
+/ # ls
+bin    dev    etc    home   lib    media  mnt    opt    proc   root   run    sbin   srv    sys    tmp    usr    var
+/ # touch myfile.sh
+/ # ls
+bin        etc        lib        mnt        opt        root       sbin       sys        usr
+dev        home       media      myfile.sh  proc       run        srv        tmp        var
+/ # cat myfile.sh
+/ # echo "hello world" >> myfile.sh
+/ # cat myfile.sh
+hello world
+/ # exit
+
+Step 4: 
+-------
+Stop the container
+
+C:\Users\Admin>docker stop 6cd787df9ad2d56ffa0384de0a3e1aab8bcad269cd1bffc8c395c1d6bf3fd03b
+6cd787df9ad2d56ffa0384de0a3e1aab8bcad269cd1bffc8c395c1d6bf3fd03b
+
+OR
+C:\Users\Admin>docker stop myalpinecontainer
+myalpinecontainer
+
+INFO: 
+6cd787df9ad2d56ffa0384de0a3e1aab8bcad269cd1bffc8c395c1d6bf3fd03b : containerID 
+myalpinecontainer: name of your container
+
+
+start the container: start the Image: do your linux work : exit
+
+=================================================================================================
+AIM TASK 2: 
+CREATE an Image of Spring Boot Backend Application and deploy it on docker hub. 
+Other team members can take a pull of this image and run this app and work on this api. 
+
+Step 1: Build the application 
+
+- Maven -> Update Project 
+- Run As -> Maven Install 
+ [If the BUild succeeds then the application is ready to be dockerized]
+
+[Extra Step]
+Run the jar file using command:
+java -jar <name of jar file>
+
+this will allow developer to test api. 
+
+{This is not recommended}
+
+Step 2: Create a docker file and add config to it 
+
+Name of Docker File: Dockerfile
+
+Config
+------
+FROM openjdk:8
+EXPOSE 8282
+ADD target/EmployeeCMSBackend-0.0.1-SNAPSHOT.jar EmployeeCMSBackend-0.0.1-SNAPSHOT.jar
+ENTRYPOINT [ "java","-jar","/EmployeeCMSBackend-0.0.1-SNAPSHOT.jar" ]
+
+INFO: Name of jar file can be taken from the file created after step 1 in target folder. 
+
+Step 3: 
+------
+Create an Image
+
+C:\HEX-TECH-NOV\EmployeeCMSBackend>docker build -t ecms-backend-image .
+[+] Building 3.6s (8/8) FINISHED
+
+Verification
+------------
+C:\HEX-TECH-NOV\EmployeeCMSBackend>docker images
+REPOSITORY                                   TAG       IMAGE ID       CREATED          SIZE
+ecms-backend-image                           latest    f6ee93749a1e   7 seconds ago    544MB
+
+Step 4: 
+-------
+Run the image. 
+your application will be started in docker container and test your apis. 
+
+C:\HEX-TECH-NOV\EmployeeCMSBackend>docker run -p 9090:8282 ecms-backend-image
+
+Test API[port 9090]: 
+http://localhost:9090/api/hello
+
+Step 5:
+-------
+Push the image on docker hub for other team members to use it. 
+
+LOGIN TO DOCKER HUB through CMD
+-------------------------------
+
+C:\HEX-TECH-NOV\EmployeeCMSBackend>docker login
+Authenticating with existing credentials...  [Enter username/password of docker hub]
+Login Succeeded
+
+Tag the Image with your username
+--------------------------------
+C:\HEX-TECH-NOV\EmployeeCMSBackend>docker tag ecms-backend-image imtiyazhirani/ecms-backend-image
+
+C:\HEX-TECH-NOV\EmployeeCMSBackend>docker image ls
+REPOSITORY                                   TAG       IMAGE ID       CREATED          SIZE
+imtiyazhirani/ecms-backend-image             latest    f6ee93749a1e   8 minutes ago    544MB
+
+
+Push the Image
+--------------
+C:\HEX-TECH-NOV\EmployeeCMSBackend>docker push imtiyazhirani/ecms-backend-image
+Using default tag: latest
+The push refers to repository [docker.io/imtiyazhirani/ecms-backend-image]
+ 
+
+
+
+
+
