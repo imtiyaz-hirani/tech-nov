@@ -49,6 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		 .antMatchers(HttpMethod.POST,"/api/ticket/add").hasAuthority("EMPLOYEE")
 		 .antMatchers(HttpMethod.POST,"/api/leave/add").hasAuthority("EMPLOYEE")
 		 .antMatchers(HttpMethod.GET,"/api/employee/details").hasAuthority("EMPLOYEE")
+		 .antMatchers(HttpMethod.GET,"/api/loan/apply/{lid}/{amount}").hasAuthority("AH")
 		 .anyRequest().permitAll()
 		 .and()
 		 .httpBasic()

@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,6 +18,9 @@ public class AccountHolder {
 	private String name;
 	private String panNUmber;
 	private float creditScore; 
+	
+	@OneToOne
+	private User user; 
 	
 	public Long getId() {
 		return id;
@@ -48,6 +52,14 @@ public class AccountHolder {
 
 	public void setCreditScore(float creditScore) {
 		this.creditScore = creditScore;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	

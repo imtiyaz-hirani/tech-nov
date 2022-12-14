@@ -15,4 +15,7 @@ public interface AccountHolderRepository extends JpaRepository<AccountHolder, Lo
 	@Query("select ah from AccountHolder ah where ah.id=?1")
 	AccountHolder getAHById(Long ahid);
 
+	@Query("select ah.id from AccountHolder ah where ah.user.username=?1")
+	Long getAHByUsername(String username);
+
 }
